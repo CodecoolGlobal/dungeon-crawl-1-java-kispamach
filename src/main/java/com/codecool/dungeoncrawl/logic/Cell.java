@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 public class Cell implements Drawable {
     private CellType type;
@@ -46,5 +47,13 @@ public class Cell implements Drawable {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isFloor() {
+        return this.getType().equals(CellType.FLOOR);
+    }
+
+    public boolean isEnemy() {
+        return this.actor instanceof Skeleton;
     }
 }
