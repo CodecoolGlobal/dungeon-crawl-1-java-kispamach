@@ -53,7 +53,6 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
-                if (nextCell.isAviable())
                 map.getPlayer().move(0, -1);
                 refresh();
                 break;
