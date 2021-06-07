@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
+    private int maxHealth = 10;
     private int health = 10;
     private int strength = 6;
     private ArrayList<Item> inventory = new ArrayList<>();
@@ -19,11 +20,15 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.isAviable() && !nextCell.isEnemy()) {
+        if (nextCell.isAvailable() && !nextCell.isEnemy()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public int getHealth() {

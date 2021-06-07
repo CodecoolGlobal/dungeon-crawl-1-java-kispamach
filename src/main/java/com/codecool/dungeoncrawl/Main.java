@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Alien;
+import com.codecool.dungeoncrawl.logic.actors.Guard;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.Random;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -57,7 +61,6 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
-                map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
@@ -75,9 +78,40 @@ public class Main extends Application {
         }
     }
 
+    private void enemyMove(String direction, Cell cell) {
+        switch (direction) {
+            case "UP":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(0, -1);
+                break;
+            case "DOWN":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(0, 1);
+                break;
+            case "LEFT":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(-1, 0);
+                break;
+            case "RIGHT":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(1,0);
+                break;
+        }
+    }
+
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        String[] directions = {"UP", "DOWN", "LEFT", "RIGHT"};
+        Random random = new Random();
+
+        // enemy move
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
+                if (cell.getActor() instanceof Guard || cell.getActor() instanceof Alien) {
+                    String direction = directions[random.nextInt(4)];
+                    enemyMove(direction, cell);
+                }
+            }
+        }
+
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
@@ -88,7 +122,7 @@ public class Main extends Application {
                 }
             }
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
     }
 }

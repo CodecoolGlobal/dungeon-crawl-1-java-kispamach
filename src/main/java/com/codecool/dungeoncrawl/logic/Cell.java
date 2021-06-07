@@ -60,7 +60,7 @@ public class Cell implements Drawable {
         return y;
     }
 
-    public boolean isAviable() {
+    public boolean isAvailable() {
         return this.getType().equals(CellType.FLOOR) || this.item != null;
     }
 
