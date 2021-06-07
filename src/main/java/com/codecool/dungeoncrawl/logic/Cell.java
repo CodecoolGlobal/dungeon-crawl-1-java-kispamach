@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Guard;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 public class Cell implements Drawable {
@@ -54,6 +55,6 @@ public class Cell implements Drawable {
     }
 
     public boolean isEnemy() {
-        return this.actor instanceof Skeleton;
+        return this.actor instanceof Skeleton || this.actor instanceof Guard;
     }
 }
