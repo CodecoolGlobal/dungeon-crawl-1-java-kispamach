@@ -6,11 +6,12 @@ import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Tiles {
     public static int TILE_WIDTH = 32;
 
-    private static Image tileset = new Image("/tiles.png", 543 * 2, 543 * 2, true, false);
+    private static Image tileset = new Image("/tiles2.png", 543 * 2, 543 * 2, true, false);
     private static Map<String, Tile> tileMap = new HashMap<>();
     public static class Tile {
         public final int x, y, w, h;
@@ -23,9 +24,10 @@ public class Tiles {
     }
 
     static {
-        tileMap.put("empty", new Tile(0, 0));
+        Random random = new Random();
+        tileMap.put("empty", new Tile(random.nextInt(3) + 1, 0));
         tileMap.put("wall", new Tile(7, 18));
-        tileMap.put("floor", new Tile(17, 0));
+        tileMap.put("floor", new Tile(0, 0));
         tileMap.put("player", new Tile(28, 9));
         tileMap.put("skeleton", new Tile(31, 6));
     }
