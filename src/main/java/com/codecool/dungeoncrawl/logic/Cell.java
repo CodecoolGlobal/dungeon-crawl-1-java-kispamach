@@ -47,4 +47,8 @@ public class Cell implements Drawable {
     public int getY() {
         return y;
     }
+
+    public boolean isAviable() {
+        return !this.getType().equals(CellType.WALL);
+    }
 }
