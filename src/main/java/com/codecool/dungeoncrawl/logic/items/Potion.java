@@ -2,16 +2,16 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Weapons extends Items{
+public class Potion extends Item {
 
-    private int attack = 5;
+    private int health = 4;
 
-    public Weapons(Cell cell, String name) {
+    public Potion(Cell cell, String name) {
         super(cell, name);
     }
 
     @Override
     public String getTileName() {
-        return "weapon";
+        return "potion";
     }
 }

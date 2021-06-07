@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Gear extends Items {
+public class Gear extends Item {
 
     private int armor = 5;
 

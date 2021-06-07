@@ -2,11 +2,13 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Guard;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.Alien;
+import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class Cell implements Drawable {
     private CellType type;
     private Actor actor;
+    private Item item;
     private GameMap gameMap;
     private int x, y;
 
@@ -33,6 +35,14 @@ public class Cell implements Drawable {
         return actor;
     }
 
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
     public Cell getNeighbor(int dx, int dy) {
         return gameMap.getCell(x + dx, y + dy);
     }
@@ -50,11 +60,15 @@ public class Cell implements Drawable {
         return y;
     }
 
-    public boolean isFloor() {
-        return this.getType().equals(CellType.FLOOR);
+    public boolean isAviable() {
+        return this.getType().equals(CellType.FLOOR) || this.item != null;
     }
 
     public boolean isEnemy() {
-        return this.actor instanceof Skeleton || this.actor instanceof Guard;
+        return this.actor instanceof Alien || this.actor instanceof Guard;
+    }
+
+    public boolean isItem() {
+        return this.item != null;
     }
 }

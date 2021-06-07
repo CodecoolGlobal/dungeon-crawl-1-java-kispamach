@@ -2,8 +2,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Skeleton extends Actor {
-    public Skeleton(Cell cell) {
+public class Alien extends Actor {
+    public Alien(Cell cell) {
         super(cell);
     }
 
