@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.items.Gear;
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -72,5 +73,7 @@ public abstract class Actor implements Drawable {
             health += ((Potion) item).getHeal();
             if (health >= maxHealth) health = maxHealth;
         }
+        item.getCell().setItem(null);
+        item.getCell().setType(CellType.FLOOR);
     }
 }
