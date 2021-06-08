@@ -36,7 +36,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
     Label inventoryLabel = new Label();
-    Label strengthLabel = new Label();
     boolean onItem = false;
     private Button pick = new Button("Pick up item.");
     Stage stage;
