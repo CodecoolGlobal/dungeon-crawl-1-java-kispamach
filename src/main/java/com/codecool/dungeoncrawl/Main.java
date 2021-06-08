@@ -5,7 +5,6 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Alien;
 import com.codecool.dungeoncrawl.logic.actors.Guard;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -163,7 +162,7 @@ public class Main extends Application {
         ui.add(new Label("Inventory:"),0,3);
         ui.add(inventoryLabel,1,3);
         ui.add(pick, 0, 20);
-        hide();
+        hidePickUpBtn();
 
         BorderPane borderPane = new BorderPane();
 
@@ -186,15 +185,15 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void hide() {
+    private void hidePickUpBtn() {
         pick.setVisible(false);
     }
 
-    private void show() { pick.setVisible(true); }
+    private void showPickUpBtn() { pick.setVisible(true); }
 
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
-        hide();
+        hidePickUpBtn();
     }
 
 
@@ -202,34 +201,34 @@ public class Main extends Application {
 
         switch (keyEvent.getCode()) {
             case UP:
-                hide();
+                hidePickUpBtn();
                 map.getPlayer().move(0, -1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    show();
+                    showPickUpBtn();
                 }
                 refresh();
                 break;
             case DOWN:
-                hide();
+                hidePickUpBtn();
                 map.getPlayer().move(0, 1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    show();
+                    showPickUpBtn();
                  }
                 refresh();
                 break;
             case LEFT:
-                hide();
+                hidePickUpBtn();
                 map.getPlayer().move(-1, 0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    show();
+                    showPickUpBtn();
                     }
                 refresh();
                 break;
             case RIGHT:
-                hide();
+                hidePickUpBtn();
                 map.getPlayer().move(1,0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    show();
+                    showPickUpBtn();
                 }
                 refresh();
                 break;
@@ -257,19 +256,8 @@ public class Main extends Application {
 
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        String[] directions = {"UP", "DOWN", "LEFT", "RIGHT"};
-        Random random = new Random();
 
-        // enemy move
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
-                if (cell.getActor() instanceof Guard || cell.getActor() instanceof Alien) {
-                    String direction = directions[random.nextInt(4)];
-                    enemyMove(direction, cell);
-                }
-            }
-        }
+        enemyMove();
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
@@ -285,5 +273,20 @@ public class Main extends Application {
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
         inventoryLabel.setText("" + map.getPlayer().itemInInventory());
+    }
+
+    private void enemyMove() {
+        String[] directions = {"UP", "DOWN", "LEFT", "RIGHT"};
+        Random random = new Random();
+
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
+                if (cell.getActor() instanceof Guard || cell.getActor() instanceof Alien) {
+                    String direction = directions[random.nextInt(4)];
+                    enemyMove(direction, cell);
+                }
+            }
+        }
     }
 }
