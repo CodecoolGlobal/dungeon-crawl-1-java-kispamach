@@ -25,7 +25,7 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.isEnemy() || nextCell.isPlayer()) attack(nextCell.getActor());
+        if (nextCell.isEnemy() || nextCell.isPlayer()) attack(nextCell.getActor(), nextCell);
         if (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -77,6 +77,7 @@ public abstract class Actor implements Drawable {
         this.inventory.add(item);
         if (item instanceof Gear) {
             maxHealth += ((Gear) item).getArmor();
+            health += ((Gear) item).getArmor();
         } else if (item instanceof Weapon) {
             strength += ((Weapon) item).getAttack();
         } else if (item instanceof Potion) {
@@ -94,19 +95,20 @@ public abstract class Actor implements Drawable {
         return sb.toString();
     }
 
-    public void attack(Actor actor) {
-        do {
+    public void attack(Actor actor, Cell cell) {
+        while (true) {
             actor.setHealth(actor.getHealth() - this.strength);
             System.out.println(this.getClass().getSimpleName() + this.health + " + " + actor.getHealth() + actor.getClass().getSimpleName());
             if (actor.getHealth() < 0 || this.health < 0) break;
             this.health = this.health - actor.getStrength();
             System.out.println(this.getClass().getSimpleName() + this.health + " + " + actor.getHealth() + actor.getClass().getSimpleName());
-        } while (actor.getHealth() > 0 || this.health > 0);
+            if (actor.getHealth() < 0 || this.health < 0) break;
+        }
         if (actor.getHealth() <= 0)  {
-            this.cell.setActor(null);
+            cell.setActor(null);
             System.out.println(actor.getClass().getSimpleName() + " halt");
         } else if (this.health <= 0 ){
-            actor.getCell().setActor(null);
+            cell.setActor(null);
             System.out.println(this.getClass().getSimpleName() + " halt");
         }
     }
