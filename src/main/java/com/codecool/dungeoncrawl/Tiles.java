@@ -25,7 +25,7 @@ public class Tiles {
 
     static {
         Random random = new Random();
-        tileMap.put("empty", new Tile(random.nextInt(3) + 1, 0));
+        tileMap.put("empty", new Tile(1, 0));
         tileMap.put("wall", new Tile(7, 18));
         tileMap.put("floor", new Tile(0, 0));
         tileMap.put("player", new Tile(28, 9));

@@ -11,11 +11,16 @@
     -fx-background-color: rgba(120, 116, 116, 0.2);
 }
 
-.label{
+.label {
     -fx-text-fill: #33ff00;
-    -fx-font-size:20;
+    -fx-font-size: 16;
 
 }
+
+/*#inventory-label {*/
+/*    -fx-background-color: rgba(143, 143, 143, 0.5);*/
+/*    -fx-background-radius: 10;*/
+/*}*/
 
 #input {
     -fx-background-color: #00000000;
@@ -39,5 +44,20 @@
     -fx-font-family: "Arial";
     -fx-font-size: 20px;
     -fx-text-fill: grey;
+}
 
+/*#pick-up-btn {*/
+/*    -fx-border-color: black;*/
+/*    -fx-pref-width: 150px;*/
+/*    -fx-padding: 5 10 5 10;*/
+/*    -fx-font-family: "Arial";*/
+/*    -fx-font-size: 20px;*/
+/*    -fx-text-fill: black;*/
+/*}*/
+
+#name-label {
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-family: "monospace"
 }

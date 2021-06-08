@@ -35,8 +35,9 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
     Label inventoryLabel = new Label();
-    boolean onItem = false;
-    private Button pick = new Button("Pick up item.");
+    Label nameLabel = new Label();
+    Button pickUpBtn = new Button("Pick up item.");
+
     Stage stage;
 
 
@@ -83,8 +84,8 @@ public class Main extends Application {
         BorderPane menu = new BorderPane();
 
         menu.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menu.setPrefWidth(500);
-        menu.setPrefHeight(500);
+        menu.setPrefWidth(800);
+        menu.setPrefHeight(650);
         menu.setCenter(settings);
 
         buttons.setAlignment(Pos.CENTER);
@@ -146,22 +147,29 @@ public class Main extends Application {
 
     public void gameStart(Stage primaryStage) throws Exception{
         canvas.setFocusTraversable(false);
-        pick.setFocusTraversable(false);
+        pickUpBtn.setFocusTraversable(false);
+        pickUpBtn.setId("pick-up-btn");
+        inventoryLabel.setId("inventory-label");
+        nameLabel.setId("name-label");
+        nameLabel.setText("" + (map.getPlayer().getName()));
+
         GridPane ui = new GridPane();
 
-        ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
-        ui.setBackground(new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        ui.add(new Label("Name: "), 0, 0);
-        ui.add(new Label(map.getPlayer().getName()), 1, 0);
+        ui.setPrefWidth(250);
+        ui.setPadding(new Insets(10));
+
+        ui.setStyle("-fx-background-color: rgba(143, 143, 143, 0.3); -fx-background-radius: 10;");
+
+
+        ui.add(nameLabel, 0, 0);
         ui.add(new Label("Health: "), 0, 1);
         ui.add(healthLabel, 1, 1);
         ui.add(new Label("Strength: "), 0, 2);
         ui.add(strengthLabel, 1, 2);
         ui.add(new Label("Inventory:"),0,3);
         ui.add(inventoryLabel,1,3);
-        ui.add(pick, 0, 20);
+        ui.add(pickUpBtn, 0, 20);
         hidePickUpBtn();
 
         BorderPane borderPane = new BorderPane();
@@ -177,7 +185,7 @@ public class Main extends Application {
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
-        pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+        pickUpBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             pickUp();
         });
 
@@ -186,10 +194,10 @@ public class Main extends Application {
     }
 
     private void hidePickUpBtn() {
-        pick.setVisible(false);
+        pickUpBtn.setVisible(false);
     }
 
-    private void showPickUpBtn() { pick.setVisible(true); }
+    private void showPickUpBtn() { pickUpBtn.setVisible(true); }
 
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
