@@ -27,7 +27,7 @@ import java.util.Random;
 import java.io.FileNotFoundException;
 
 public class Main extends Application {
-    public int x, y = 0;
+
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -172,7 +172,7 @@ public class Main extends Application {
         scene.setOnKeyPressed(this::onKeyPressed);
 
         pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-            refresh();
+            pickUp();
         });
 
         primaryStage.setTitle("Dungeon Crawl");
@@ -185,18 +185,20 @@ public class Main extends Application {
 
     private void show() { pick.setVisible(true); }
 
+    private void pickUp() {
+        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+        hide();
+    }
+
 
     private void onKeyPressed(KeyEvent keyEvent) {
+
         switch (keyEvent.getCode()) {
             case UP:
                 hide();
                 map.getPlayer().move(0, -1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
-                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
-                        hide();
-                    });
                 }
                 refresh();
                 break;
@@ -205,11 +207,7 @@ public class Main extends Application {
                 map.getPlayer().move(0, 1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
-                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
-                        hide();
-                    });
-                }
+                 }
                 refresh();
                 break;
             case LEFT:
@@ -217,11 +215,7 @@ public class Main extends Application {
                 map.getPlayer().move(-1, 0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
-                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
-                        hide();
-                    });
-                }
+                    }
                 refresh();
                 break;
             case RIGHT:
@@ -229,10 +223,6 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
-                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
-                        hide();
-                    });
                 }
                 refresh();
                 break;
