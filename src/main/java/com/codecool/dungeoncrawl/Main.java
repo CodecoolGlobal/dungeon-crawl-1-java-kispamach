@@ -140,6 +140,7 @@ public class Main extends Application {
 
     public void gameStart(Stage primaryStage) throws Exception{
         GridPane ui = new GridPane();
+
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
@@ -152,7 +153,6 @@ public class Main extends Application {
         ui.add(pick, 0, 20);
         hide();
 
-
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -162,6 +162,10 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
+
+        pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+            refresh();
+        });
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
