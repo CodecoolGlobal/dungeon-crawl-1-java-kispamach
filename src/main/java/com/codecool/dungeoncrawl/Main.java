@@ -189,6 +189,7 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+                hide();
                 map.getPlayer().move(0, -1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
@@ -200,31 +201,37 @@ public class Main extends Application {
                 refresh();
                 break;
             case DOWN:
+                hide();
                 map.getPlayer().move(0, 1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
                     pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
                         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                        hide();
                     });
                 }
                 refresh();
                 break;
             case LEFT:
+                hide();
                 map.getPlayer().move(-1, 0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
                     pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
                         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                        hide();
                     });
                 }
                 refresh();
                 break;
             case RIGHT:
+                hide();
                 map.getPlayer().move(1,0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     show();
                     pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
                         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                        hide();
                     });
                 }
                 refresh();

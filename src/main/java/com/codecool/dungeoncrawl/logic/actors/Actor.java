@@ -79,15 +79,14 @@ public abstract class Actor implements Drawable {
             if (health >= maxHealth) health = maxHealth;
         }
         item.getCell().setType(CellType.FLOOR);
-        item.getCell().setItem(null);
-        item.setCell(null);
     }
 
     public String itemInInventory () {
         StringBuilder sb = new StringBuilder();
-        for (Item item : inventory ) {
-            sb.append(item.getName() + "\n");
+        for (Item item : this.inventory) {
+            sb.append(item.getName()).append("\n");
         }
+        System.out.println(inventory.toString());
         return sb.toString();
     }
 }

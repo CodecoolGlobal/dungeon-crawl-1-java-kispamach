@@ -62,7 +62,7 @@ public class Cell implements Drawable {
     }
 
     public boolean isAvailable() {
-        return this.getType().equals(CellType.FLOOR) || this.item != null;
+        return this.getType().equals(CellType.FLOOR) || this.isItem();
     }
 
     public boolean isEnemy() {
@@ -74,6 +74,7 @@ public class Cell implements Drawable {
     }
 
     public boolean isItem() {
-        return this.item != null;
+        return this.type.equals(CellType.GEAR) || this.type.equals(CellType.KEY)
+                || this.type.equals(CellType.WEAPON) || this.type.equals(CellType.POTION);
     }
 }
