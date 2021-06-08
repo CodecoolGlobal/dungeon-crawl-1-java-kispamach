@@ -10,6 +10,10 @@ public class Gear extends Item {
         super(cell, name);
     }
 
+    public int getArmor() {
+        return armor;
+    }
+
     @Override
     public String getTileName() {
         return "gear";

@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Guard;
 import com.codecool.dungeoncrawl.logic.actors.Alien;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class Cell implements Drawable {
@@ -66,6 +67,10 @@ public class Cell implements Drawable {
 
     public boolean isEnemy() {
         return this.actor instanceof Alien || this.actor instanceof Guard;
+    }
+
+    public boolean isPlayer() {
+        return this.actor instanceof Player;
     }
 
     public boolean isItem() {

@@ -10,6 +10,10 @@ public class Weapon extends Item {
         super(cell, name);
     }
 
+    public int getAttack() {
+        return attack;
+    }
+
     @Override
     public String getTileName() {
         return "weapon";
