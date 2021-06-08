@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public abstract class Actor implements Drawable {
     private String name;
     private Cell cell;
-    private int maxHealth = 10;
-    private int health = 10;
-    private int strength = 6;
+    protected int maxHealth = 10;
+    protected int health = 10;
+    protected int strength = 6;
     private ArrayList<Item> inventory = new ArrayList<>();
 
     public Actor(Cell cell) {
@@ -25,6 +25,7 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
+        if (nextCell.isEnemy() || nextCell.isPlayer()) attack(nextCell.getActor());
         if (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -46,6 +47,10 @@ public abstract class Actor implements Drawable {
 
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getStrength() {
@@ -86,7 +91,23 @@ public abstract class Actor implements Drawable {
         for (Item item : this.inventory) {
             sb.append(item.getName()).append("\n");
         }
-        System.out.println(inventory.toString());
         return sb.toString();
+    }
+
+    public void attack(Actor actor) {
+        do {
+            actor.setHealth(actor.getHealth() - this.strength);
+            System.out.println(this.getClass().getSimpleName() + this.health + " + " + actor.getHealth() + actor.getClass().getSimpleName());
+            if (actor.getHealth() < 0 || this.health < 0) break;
+            this.health = this.health - actor.getStrength();
+            System.out.println(this.getClass().getSimpleName() + this.health + " + " + actor.getHealth() + actor.getClass().getSimpleName());
+        } while (actor.getHealth() > 0 || this.health > 0);
+        if (actor.getHealth() <= 0)  {
+            this.cell.setActor(null);
+            System.out.println(actor.getClass().getSimpleName() + " halt");
+        } else if (this.health <= 0 ){
+            actor.getCell().setActor(null);
+            System.out.println(this.getClass().getSimpleName() + " halt");
+        }
     }
 }
