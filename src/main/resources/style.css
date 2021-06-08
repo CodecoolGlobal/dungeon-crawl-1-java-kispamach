@@ -1,0 +1,43 @@
+.root{
+    -fx-background-image: url("stars.png");
+    }
+
+.ui {
+    -fx-background-color: rgba(120, 116, 116, 0.2);
+
+}
+
+.GridPane{
+    -fx-background-color: rgba(120, 116, 116, 0.2);
+}
+
+.label{
+    -fx-text-fill: #33ff00;
+    -fx-font-size:20;
+
+}
+
+#input {
+    -fx-background-color: #00000000;
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-display-caret: false;
+}
+#text {
+
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-fill: white;
+    -fx-display-caret: false;
+}
+
+#allbtn {
+    -fx-border-color: black;
+    -fx-pref-width: 300px;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+    -fx-text-fill: grey;
+
+}
