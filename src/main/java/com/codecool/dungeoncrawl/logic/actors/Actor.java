@@ -90,7 +90,7 @@ public abstract class Actor implements Drawable {
     public String itemInInventory () {
         StringBuilder sb = new StringBuilder();
         for (Item item : this.inventory) {
-            sb.append(item.getName()).append("\n");
+            sb.append(item.getName()).append(",\n");
         }
         return sb.toString();
     }

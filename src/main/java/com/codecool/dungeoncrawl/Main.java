@@ -60,6 +60,7 @@ public class Main extends Application {
 
         TextField textField = new TextField();
         textField.setId("input");
+        textField.setPrefWidth(100);
 
         VBox settings = new VBox(nameLabel, textField, buttons);
         settings.setAlignment(Pos.CENTER);
@@ -84,8 +85,8 @@ public class Main extends Application {
         BorderPane menu = new BorderPane();
 
         menu.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menu.setPrefWidth(800);
-        menu.setPrefHeight(650);
+        menu.setPrefWidth(1024);
+        menu.setPrefHeight(600);
         menu.setCenter(settings);
 
         buttons.setAlignment(Pos.CENTER);
@@ -128,8 +129,8 @@ public class Main extends Application {
 
         menuLayout.setCenter(buttons);
         menuLayout.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menuLayout.setPrefWidth(500);
-        menuLayout.setPrefHeight(500);
+        menuLayout.setPrefWidth(1024);
+        menuLayout.setPrefHeight(600);
 
         Scene scene = new Scene(menuLayout);
         scene.getStylesheets().add("style.css");
@@ -156,19 +157,19 @@ public class Main extends Application {
         GridPane ui = new GridPane();
 
 
-        ui.setPrefWidth(250);
+        ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.setStyle("-fx-background-color: rgba(143, 143, 143, 0.3); -fx-background-radius: 10;");
+        ui.setStyle("-fx-background-color: rgba(28, 28, 28, 0.95); -fx-background-radius: 10;");
 
 
         ui.add(nameLabel, 0, 0);
-        ui.add(new Label("Health: "), 0, 1);
-        ui.add(healthLabel, 1, 1);
-        ui.add(new Label("Strength: "), 0, 2);
-        ui.add(strengthLabel, 1, 2);
-        ui.add(new Label("Inventory:"),0,3);
-        ui.add(inventoryLabel,1,3);
+        ui.add(new Label((map.getPlayer().getName()) + "@Health:~$ "), 0, 3);
+        ui.add(healthLabel, 0, 4);
+        ui.add(new Label((map.getPlayer().getName()) + "@Strength:~$ "), 0, 5);
+        ui.add(strengthLabel, 0, 6);
+        ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "),0,7);
+        ui.add(inventoryLabel,0,8);
         ui.add(pickUpBtn, 0, 20);
         hidePickUpBtn();
 
@@ -280,7 +281,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
-        inventoryLabel.setText("" + map.getPlayer().itemInInventory());
+        inventoryLabel.setText("{" + map.getPlayer().itemInInventory() + "}");
     }
 
     private void enemyMove() {

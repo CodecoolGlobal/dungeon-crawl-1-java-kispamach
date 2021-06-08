@@ -1,5 +1,5 @@
 .root{
-    -fx-background-image: url("stars.png");
+    -fx-background-image: url("bg.jpg");
     }
 
 .ui {
@@ -13,7 +13,7 @@
 
 .label {
     -fx-text-fill: #33ff00;
-    -fx-font-size: 16;
+    -fx-font-size: 14;
 
 }
 
@@ -23,18 +23,22 @@
 /*}*/
 
 #input {
-    -fx-background-color: #00000000;
+    -fx-background-color: rgba(177, 177, 177, 0.25);
     -fx-font-size: 30px;
+    -fx-pref-width: 300px;
+    -fx-padding: 0 150 0 150;
     -fx-alignment: center;
     -fx-text-fill: white;
     -fx-display-caret: false;
 }
 #text {
-
     -fx-font-size: 30px;
     -fx-alignment: center;
     -fx-fill: white;
     -fx-display-caret: false;
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
 }
 
 #allbtn {
@@ -46,18 +50,21 @@
     -fx-text-fill: grey;
 }
 
-/*#pick-up-btn {*/
-/*    -fx-border-color: black;*/
-/*    -fx-pref-width: 150px;*/
-/*    -fx-padding: 5 10 5 10;*/
-/*    -fx-font-family: "Arial";*/
-/*    -fx-font-size: 20px;*/
-/*    -fx-text-fill: black;*/
-/*}*/
+#pick-up-btn {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-background-color: green;
+    -fx-pref-width: 150px;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+}
 
 #name-label {
-    -fx-font-size: 30px;
+    -fx-font-size: 25px;
     -fx-alignment: center;
     -fx-font-weight: bold;
-    -fx-font-family: "monospace"
+    -fx-font-family: "monospace";
+    -fx-padding: 0 0 20 0;
 }
