@@ -61,7 +61,7 @@ public class Main extends Application {
         TextField textField = new TextField();
         textField.setId("input");
 
-        VBox settings = new VBox(nameLabel, textField,buttons);
+        VBox settings = new VBox(nameLabel, textField, buttons);
         settings.setAlignment(Pos.CENTER);
 
         startButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -84,8 +84,8 @@ public class Main extends Application {
         BorderPane menu = new BorderPane();
 
         menu.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menu.setPrefWidth(1000);
-        menu.setPrefHeight(1000);
+        menu.setPrefWidth(500);
+        menu.setPrefHeight(500);
         menu.setCenter(settings);
 
         buttons.setAlignment(Pos.CENTER);
@@ -126,8 +126,8 @@ public class Main extends Application {
 
         menuLayout.setCenter(buttons);
         menuLayout.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menuLayout.setPrefWidth(1000);
-        menuLayout.setPrefHeight(1000);
+        menuLayout.setPrefWidth(500);
+        menuLayout.setPrefHeight(500);
 
         Scene scene = new Scene(menuLayout);
 
@@ -143,21 +143,21 @@ public class Main extends Application {
     }
 
     public void gameStart(Stage primaryStage) throws Exception{
+        canvas.setFocusTraversable(false);
+        pick.setFocusTraversable(false);
         GridPane ui = new GridPane();
 
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Strength: "), 0, 1);
-        ui.add(strengthLabel, 1, 1);
         ui.add(new Label("Name: "), 0, 0);
         ui.add(new Label(map.getPlayer().getName()), 1, 0);
         ui.add(new Label("Health: "), 0, 1);
         ui.add(healthLabel, 1, 1);
-        ui.add(new Label("Inventory:"),0,2);
-        ui.add(inventoryLabel,1,2);
+        ui.add(new Label("Strength: "), 0, 2);
+        ui.add(strengthLabel, 1, 2);
+        ui.add(new Label("Inventory:"),0,3);
+        ui.add(inventoryLabel,1,3);
         ui.add(pick, 0, 20);
         hide();
 
@@ -190,18 +190,43 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+                    show();
+                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                        hide();
+                    });
+                }
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+                    show();
+                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                    });
+                }
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+                    show();
+                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                    });
+                }
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+                    show();
+                    pick.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
+                    });
+                }
                 refresh();
                 break;
         }
@@ -245,16 +270,16 @@ public class Main extends Application {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
+
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                    } else {
-                        Tiles.drawTile(context, cell, x, y);
-                    }
-
-
+                } else {
+                    Tiles.drawTile(context, cell, x, y);
+                }
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
+        inventoryLabel.setText("" + map.getPlayer().itemInInventory());
     }
 }
