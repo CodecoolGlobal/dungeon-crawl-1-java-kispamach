@@ -34,6 +34,12 @@ public class MapLoader {
                         case '#':
                             cell.setType(CellType.WALL);
                             break;
+                        case 'c':
+                            cell.setType(CellType.CELL);
+                            break;
+                        case 'o':
+                            cell.setType(CellType.OPENCELL);
+                            break;
                         case 'd':
                             cell.setType(CellType.DOOR);
                             break;

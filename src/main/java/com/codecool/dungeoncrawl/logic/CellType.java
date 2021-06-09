@@ -8,6 +8,8 @@ public enum CellType {
     WEAPON("weapon"),
     GEAR("gear"),
     POTION("potion"),
+    CELL("cell"),
+    OPENCELL("opencell"),
     WALL("wall");
 
     private final String tileName;

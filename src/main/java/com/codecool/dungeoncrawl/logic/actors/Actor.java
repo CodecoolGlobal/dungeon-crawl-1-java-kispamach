@@ -24,6 +24,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void move(int dx, int dy) {
+
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (nextCell.isEnemy() || nextCell.isPlayer()) attack(nextCell.getActor(), nextCell);
         if (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) {
