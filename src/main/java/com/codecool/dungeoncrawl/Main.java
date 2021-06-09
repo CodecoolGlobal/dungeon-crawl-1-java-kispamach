@@ -56,7 +56,7 @@ public class Main extends Application {
         backButton.setId("allbtn");
 
 
-        HBox buttons = new HBox(startButton,backButton);
+        HBox buttons = new HBox(startButton, backButton);
         Text nameLabel = new Text("Enter Your Name");
         nameLabel.setId("text");
 
@@ -150,6 +150,22 @@ public class Main extends Application {
 
     public void gameStart(Stage primaryStage) throws Exception{
 //        context.scale(1.5, 1.5);
+        //        context.translate(-1*((map.getWidth()/2)-map.getPlayer().getCell().getX()),
+//                -1*((map.getHeight()/2)-map.getPlayer().getCell().getY()));
+        System.out.println("width");
+        System.out.println(map.getWidth());
+        System.out.println("height");
+        System.out.println(map.getHeight());
+        System.out.println("y");
+        System.out.println(map.getPlayer().getCell().getY());
+        System.out.println("x");
+        System.out.println(map.getPlayer().getCell().getX());
+        System.out.println(map.getWidth()-map.getPlayer().getCell().getY());
+        context.translate(30 * (map.getWidth()/2), 30 * -(map.getHeight()/2));
+        context.translate(
+                30 * -(map.getPlayer().getCell().getX()),
+                30 * (map.getHeight()-map.getPlayer().getCell().getY()));
+
 
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
@@ -230,6 +246,7 @@ public class Main extends Application {
 
         switch (keyEvent.getCode()) {
             case UP:
+                context.translate(0, 30);
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(0, -1);
@@ -242,30 +259,33 @@ public class Main extends Application {
                 refresh();
                 break;
             case DOWN:
+                context.translate(0, -30);
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(0, 1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
-                 }
+                }
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
                     showNextLevelBtn();
                 }
                 refresh();
                 break;
             case LEFT:
+                context.translate(30, 0);
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(-1, 0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
-                    }
+                }
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
                     showNextLevelBtn();
                 }
                 refresh();
                 break;
             case RIGHT:
+                context.translate(-30, 0);
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(1,0);
@@ -292,7 +312,7 @@ public class Main extends Application {
                 map.getCell(cell.getX(), cell.getY()).getActor().move(-1, 0);
                 break;
             case "RIGHT":
-                map.getCell(cell.getX(), cell.getY()).getActor().move(1,0);
+                map.getCell(cell.getX(), cell.getY()).getActor().move(1, 0);
                 break;
         }
     }
@@ -303,9 +323,23 @@ public class Main extends Application {
 //        context.setFill(Color.BLACK);  // background color
 //        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());  // background position
 
+//        System.out.println(map.getPlayer().getCell().getX());
+//        System.out.println(map.getPlayer().getCell().getY());
+//        context.translate(-1*((map.getWidth()/2)-map.getPlayer().getCell().getX()),
+//                -1*((map.getHeight()/2)-map.getPlayer().getCell().getY()));
 
-//        context.transform();
-//        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+//        switch (keyEvent.getCode()) {
+//            case UP:
+//                context.translate(0, 30);
+//            case DOWN:
+//                context.translate(0, -30);
+//            case LEFT:
+//                context.translate(30, 0);
+//            case RIGHT:
+//                context.translate(-30, 0);
+//            default:
+//                context.translate(0, 0);
+//        }
 
         enemyMove();
 
