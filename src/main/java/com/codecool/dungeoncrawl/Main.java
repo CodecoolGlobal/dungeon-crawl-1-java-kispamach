@@ -299,8 +299,11 @@ public class Main extends Application {
 
     private void refresh() {
 
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        background visibility
+//        context.setFill(Color.BLACK);  // background color
+//        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());  // background position
+
+
 //        context.transform();
 //        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
 
