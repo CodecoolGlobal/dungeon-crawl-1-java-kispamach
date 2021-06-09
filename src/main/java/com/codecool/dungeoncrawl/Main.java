@@ -32,6 +32,7 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
     Label inventoryLabel = new Label();
@@ -148,6 +149,8 @@ public class Main extends Application {
     }
 
     public void gameStart(Stage primaryStage) throws Exception{
+//        context.scale(1.5, 1.5);
+
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
         nextLevelBtn.setFocusTraversable(false);
@@ -298,6 +301,8 @@ public class Main extends Application {
 
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        context.transform();
+//        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
 
         enemyMove();
 
