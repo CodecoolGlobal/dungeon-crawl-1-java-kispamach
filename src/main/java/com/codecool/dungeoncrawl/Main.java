@@ -203,6 +203,7 @@ public class Main extends Application {
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
         hidePickUpBtn();
+        refreshLabel();
     }
 
 
@@ -279,6 +280,10 @@ public class Main extends Application {
                 }
             }
         }
+        refreshLabel();
+    }
+
+    private void refreshLabel() {
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("" + map.getPlayer().getStrength());
         inventoryLabel.setText("{" + map.getPlayer().itemInInventory() + "}");
