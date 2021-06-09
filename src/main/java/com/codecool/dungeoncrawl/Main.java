@@ -239,6 +239,7 @@ public class Main extends Application {
 
         switch (keyEvent.getCode()) {
             case UP:
+            case W:
                 if (map.getPlayer().moveable(0,-1)) {
                     context.translate(0, 32);
                 }
@@ -254,6 +255,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case DOWN:
+            case S:
                 if (map.getPlayer().moveable(0,1)) {
                     context.translate(0, -32);
                 }
@@ -269,6 +271,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case LEFT:
+            case A:
                 if (map.getPlayer().moveable(-1,0)) {
                     context.translate(32, 0);
                 }
@@ -284,6 +287,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case RIGHT:
+            case D:
                 if (map.getPlayer().moveable(1,0)) {
                     context.translate(-32, 0);
                 }
