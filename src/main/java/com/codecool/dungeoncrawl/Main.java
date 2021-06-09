@@ -149,23 +149,16 @@ public class Main extends Application {
     }
 
     public void gameStart(Stage primaryStage) throws Exception{
-//        context.scale(1.5, 1.5);
-        //        context.translate(-1*((map.getWidth()/2)-map.getPlayer().getCell().getX()),
-//                -1*((map.getHeight()/2)-map.getPlayer().getCell().getY()));
-        System.out.println("width");
-        System.out.println(map.getWidth());
-        System.out.println("height");
-        System.out.println(map.getHeight());
-        System.out.println("y");
-        System.out.println(map.getPlayer().getCell().getY());
-        System.out.println("x");
-        System.out.println(map.getPlayer().getCell().getX());
-        System.out.println(map.getWidth()-map.getPlayer().getCell().getY());
-        context.translate(30 * (map.getWidth()/2), 30 * -(map.getHeight()/2));
+        context.scale(3,3);
+        //scale positioning
+        context.translate(-267, -214.5);
+        // positioning the corner tile to the middle
+        context.translate(32 * ((double)map.getWidth()/2), -32 * ((double)map.getHeight()/2));
+        context.translate(-16, -16);
+        // positioning the player to the middle
         context.translate(
-                30 * -(map.getPlayer().getCell().getX()),
-                30 * (map.getHeight()-map.getPlayer().getCell().getY()));
-
+                -32 * (map.getPlayer().getCell().getX()),
+                32 * (map.getHeight()-map.getPlayer().getCell().getY()));
 
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
@@ -246,7 +239,9 @@ public class Main extends Application {
 
         switch (keyEvent.getCode()) {
             case UP:
-                context.translate(0, 30);
+                if (map.getPlayer().moveable(0,-1)) {
+                    context.translate(0, 32);
+                }
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(0, -1);
@@ -259,7 +254,9 @@ public class Main extends Application {
                 refresh();
                 break;
             case DOWN:
-                context.translate(0, -30);
+                if (map.getPlayer().moveable(0,1)) {
+                    context.translate(0, -32);
+                }
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(0, 1);
@@ -272,7 +269,9 @@ public class Main extends Application {
                 refresh();
                 break;
             case LEFT:
-                context.translate(30, 0);
+                if (map.getPlayer().moveable(-1,0)) {
+                    context.translate(32, 0);
+                }
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(-1, 0);
@@ -285,7 +284,9 @@ public class Main extends Application {
                 refresh();
                 break;
             case RIGHT:
-                context.translate(-30, 0);
+                if (map.getPlayer().moveable(1,0)) {
+                    context.translate(-32, 0);
+                }
                 hidePickUpBtn();
                 hideNextLevelBtn();
                 map.getPlayer().move(1,0);
@@ -322,11 +323,6 @@ public class Main extends Application {
 //        background visibility
 //        context.setFill(Color.BLACK);  // background color
 //        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());  // background position
-
-//        System.out.println(map.getPlayer().getCell().getX());
-//        System.out.println(map.getPlayer().getCell().getY());
-//        context.translate(-1*((map.getWidth()/2)-map.getPlayer().getCell().getX()),
-//                -1*((map.getHeight()/2)-map.getPlayer().getCell().getY()));
 
 //        switch (keyEvent.getCode()) {
 //            case UP:

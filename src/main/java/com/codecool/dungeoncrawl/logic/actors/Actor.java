@@ -53,6 +53,11 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public boolean moveable(int dx, int dy) {
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        return (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) || isDeveloper() ;
+    }
+
     public boolean isDeveloper() {
         return (cell.isPlayer() && (this.name.equals("Agi") || this.name.equals("David") || this.name.equals("Robi") ||
                 this.name.equals("Peti")));
@@ -138,7 +143,7 @@ public abstract class Actor implements Drawable {
         //TODO key level
         boolean isKey = false;
         for (Item item:inventory) {
-           isKey = item instanceof Key || isDeveloper() ;
+            isKey = item instanceof Key || isDeveloper() ;
         }
         System.out.println(isKey);
         return isKey;
