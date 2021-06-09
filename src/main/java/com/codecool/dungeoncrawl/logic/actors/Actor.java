@@ -34,7 +34,7 @@ public abstract class Actor implements Drawable {
         if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
 
         //open door
-        if (cell.getType().equals(CellType.DOOR) && isOpen()) {
+        if (nextCell.getType().equals(CellType.DOOR) && isOpen()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -140,6 +140,7 @@ public abstract class Actor implements Drawable {
         for (Item item:inventory) {
            isKey = item instanceof Key || isDeveloper() ;
         }
+        System.out.println(isKey);
         return isKey;
     }
 }
