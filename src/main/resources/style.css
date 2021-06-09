@@ -50,7 +50,7 @@
     -fx-text-fill: grey;
 }
 
-#pick-up-btn {
+#pick-up-btn, #next-level-btn {
     -fx-border-color: black;
     -fx-border-style: solid;
     -fx-background-color: green;

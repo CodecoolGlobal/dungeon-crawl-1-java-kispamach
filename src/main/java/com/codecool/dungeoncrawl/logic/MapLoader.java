@@ -56,7 +56,7 @@ public class MapLoader {
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell, "Level 1 key");
+                            new Key(cell, "Level 1 key", 1);
                             break;
                         case 'a':
                             cell.setType(CellType.GEAR);

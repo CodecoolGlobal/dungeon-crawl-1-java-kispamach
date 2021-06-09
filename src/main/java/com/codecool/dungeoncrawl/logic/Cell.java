@@ -77,4 +77,8 @@ public class Cell implements Drawable {
         return this.type.equals(CellType.GEAR) || this.type.equals(CellType.KEY)
                 || this.type.equals(CellType.WEAPON) || this.type.equals(CellType.POTION);
     }
+
+    public boolean isDoor() {
+        return this.type.equals(CellType.DOOR);
+    }
 }

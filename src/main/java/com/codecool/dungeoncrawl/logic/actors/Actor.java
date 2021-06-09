@@ -3,10 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
-import com.codecool.dungeoncrawl.logic.items.Gear;
-import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.items.Potion;
-import com.codecool.dungeoncrawl.logic.items.Weapon;
+import com.codecool.dungeoncrawl.logic.items.*;
 
 import java.util.ArrayList;
 
@@ -26,8 +23,7 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
 
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (cell.isPlayer() && (this.name.equals("Agi") || this.name.equals("David") || this.name.equals("Robi") ||
-                this.name.equals("Peti"))) {
+        if (isDeveloper()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -36,6 +32,13 @@ public abstract class Actor implements Drawable {
         if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
         // player attack
         if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
+
+        //open door
+        if (cell.getType().equals(CellType.DOOR) && isOpen()) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
 
         // player move
         if (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) {
@@ -48,6 +51,11 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
         }
+    }
+
+    public boolean isDeveloper() {
+        return (cell.isPlayer() && (this.name.equals("Agi") || this.name.equals("David") || this.name.equals("Robi") ||
+                this.name.equals("Peti")));
     }
 
     public int getMaxHealth() {
@@ -124,5 +132,14 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             System.out.println(this.getClass().getSimpleName() + " halt");
         }
+    }
+
+    public boolean isOpen() {
+        //TODO key level
+        boolean isKey = false;
+        for (Item item:inventory) {
+           isKey = item instanceof Key || isDeveloper() ;
+        }
+        return isKey;
     }
 }

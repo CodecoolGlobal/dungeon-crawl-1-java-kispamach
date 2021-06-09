@@ -36,7 +36,8 @@ public class Main extends Application {
     Label strengthLabel = new Label();
     Label inventoryLabel = new Label();
     Label nameLabel = new Label();
-    Button pickUpBtn = new Button("Pick up item.");
+    Button pickUpBtn = new Button("Pick up item");
+    Button nextLevelBtn = new Button("Next level");
 
     Stage stage;
 
@@ -149,10 +150,12 @@ public class Main extends Application {
     public void gameStart(Stage primaryStage) throws Exception{
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
+        nextLevelBtn.setFocusTraversable(false);
         pickUpBtn.setId("pick-up-btn");
         inventoryLabel.setId("inventory-label");
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
+        nextLevelBtn.setId("next-level-btn");
 
         GridPane ui = new GridPane();
 
@@ -171,7 +174,9 @@ public class Main extends Application {
         ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "),0,7);
         ui.add(inventoryLabel,0,8);
         ui.add(pickUpBtn, 0, 20);
+        ui.add(nextLevelBtn, 0, 20);
         hidePickUpBtn();
+        hideNextLevelBtn();
 
         BorderPane borderPane = new BorderPane();
 
@@ -190,6 +195,11 @@ public class Main extends Application {
             pickUp();
         });
 
+        nextLevelBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+            //TODO next level;
+            hideNextLevelBtn();
+        });
+
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
     }
@@ -199,6 +209,12 @@ public class Main extends Application {
     }
 
     private void showPickUpBtn() { pickUpBtn.setVisible(true); }
+
+    private void hideNextLevelBtn() {
+        nextLevelBtn.setVisible(false);
+    }
+
+    private void showNextLevelBtn() { nextLevelBtn.setVisible(true); }
 
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
@@ -212,33 +228,49 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 hidePickUpBtn();
+                hideNextLevelBtn();
                 map.getPlayer().move(0, -1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
+                }
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+                    showNextLevelBtn();
                 }
                 refresh();
                 break;
             case DOWN:
                 hidePickUpBtn();
+                hideNextLevelBtn();
                 map.getPlayer().move(0, 1);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
                  }
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+                    showNextLevelBtn();
+                }
                 refresh();
                 break;
             case LEFT:
                 hidePickUpBtn();
+                hideNextLevelBtn();
                 map.getPlayer().move(-1, 0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
                     }
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+                    showNextLevelBtn();
+                }
                 refresh();
                 break;
             case RIGHT:
                 hidePickUpBtn();
+                hideNextLevelBtn();
                 map.getPlayer().move(1,0);
                 if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
                     showPickUpBtn();
+                }
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+                    showNextLevelBtn();
                 }
                 refresh();
                 break;
