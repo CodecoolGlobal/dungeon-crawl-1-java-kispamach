@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.Group;
 
 import java.util.Random;
 
@@ -352,16 +353,25 @@ public class Main extends Application {
             System.exit(0);
         });
 
-        VBox buttons = new VBox(back_to_menu, exitGameButton);
-        buttons.setSpacing(20);
+
+        HBox buttons = new HBox(back_to_menu, exitGameButton);
+
+        VBox menu = new VBox(buttons);
 
 
         BorderPane menuLayout = new BorderPane();
-        menuLayout.setCenter(buttons);
         menuLayout.setPrefWidth(1024);
         menuLayout.setPrefHeight(600);
+        menuLayout.setCenter(menu);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setPadding(new Insets(350,5,15,5));
+
+        buttons.setSpacing(25);
+
+
 
         Scene scene = new Scene(menuLayout);
+
         scene.getStylesheets().add("gameover.css");
 
         primaryStage.setScene(scene);

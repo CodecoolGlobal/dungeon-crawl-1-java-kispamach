@@ -1,8 +1,12 @@
 .root{
     -fx-background-image: url("bg_game_over.jpg");
+
 }
 
+
+
 #text {
+
     -fx-font-size: 30px;
     -fx-alignment: center;
     -fx-fill: white;
@@ -13,9 +17,9 @@
 }
 
 #go {
+    -fx-orientation: 400,500;
     -fx-border-color: black;
     -fx-pref-width: 300px;
-    -fx-alignment: bottom-center;
     -fx-padding: 5 10 5 10;
     -fx-font-family: "Arial";
     -fx-font-size: 20px;
