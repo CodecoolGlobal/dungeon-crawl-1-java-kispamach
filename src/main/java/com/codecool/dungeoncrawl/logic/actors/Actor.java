@@ -55,7 +55,7 @@ public abstract class Actor implements Drawable {
 
     public boolean moveable(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        return (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) || isDeveloper() ;
+        return (nextCell.getType().equals(CellType.DOOR) && isOpen())||(cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) || isDeveloper() ;
     }
 
     public boolean isDeveloper() {
