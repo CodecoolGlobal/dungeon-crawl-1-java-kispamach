@@ -352,16 +352,22 @@ public class Main extends Application {
             System.exit(0);
         });
 
-        VBox buttons = new VBox(backToMenu, exitGameButton);
-        buttons.setSpacing(20);
-        buttons.setId("game-over-buttons");
+
+        HBox buttons = new HBox(backToMenu, exitGameButton);
+
+        VBox menu = new VBox(buttons);
+
 
         BorderPane menuLayout = new BorderPane();
-        menuLayout.setCenter(backToMenu);
-        menuLayout.setCenter(exitGameButton);
-
         menuLayout.setPrefWidth(1024);
         menuLayout.setPrefHeight(600);
+        menuLayout.setCenter(menu);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setPadding(new Insets(350,5,15,5));
+
+        buttons.setSpacing(25);
+
+
 
         Scene scene = new Scene(menuLayout);
         scene.getStylesheets().add("gameover.css");
