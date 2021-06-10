@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Alien;
@@ -29,8 +30,8 @@ public class Main extends Application {
 
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            (25 * Tiles.TILE_WIDTH),
+            (21 * Tiles.TILE_WIDTH));
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     Label healthLabel = new Label();
@@ -299,18 +300,25 @@ public class Main extends Application {
 
     private void refresh() {
 
+//        context.translate(map.getPlayer().getX() - map.getWidth() / 4, map.getPlayer().getY() - map.getHeight() / 4);
         context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        context.fillRect(0, 0, 25, 21);
 //        context.transform();
 //        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
 
         enemyMove();
 
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
+        for (int x = map.getPlayer().getX() - 100; x < map.getPlayer().getX() + 100; x++) {
+            for (int y = map.getPlayer().getY() - 100; y < map.getPlayer().getY() + 100; y++) {
+                Cell cell;
+            try {
+                cell = map.getCell((x + map.getPlayer().getX()) - (12), y + map.getPlayer().getY() - (10));
+            } catch (IndexOutOfBoundsException e) {
+               cell = new Cell(map, 1, 1, CellType.EMPTY);
+            }
 
                 if (cell.getActor() != null) {
+
                     Tiles.drawTile(context, cell.getActor(), x, y);
                 } else {
                     Tiles.drawTile(context, cell, x, y);
@@ -318,6 +326,7 @@ public class Main extends Application {
             }
         }
         refreshLabel();
+
     }
 
     private void refreshLabel() {

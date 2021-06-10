@@ -24,10 +24,14 @@ public abstract class Actor implements Drawable {
 
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (isDeveloper()) {
+            this.maxHealth = 1000;
+            this.health = 1000;
+            this.strength = 1000;
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
+
         // enemy attack
         if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
         // player attack
