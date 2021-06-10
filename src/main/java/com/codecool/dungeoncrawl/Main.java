@@ -41,8 +41,9 @@ public class Main extends Application {
     Label strengthLabel = new Label();
     Label inventoryLabel = new Label();
     Label nameLabel = new Label();
-    Button pickUpBtn = new Button("Pick up item");
-    Button nextLevelBtn = new Button("Next level");
+    Button pickUpBtn;
+    Button nextLevelBtn;
+
 
     Stage stage;
 
@@ -153,6 +154,8 @@ public class Main extends Application {
         mainMenu(primaryStage);
     }
 
+
+
     public void gameStart(Stage primaryStage) throws Exception {
 ////        context.scale(2,2);
 ////        //scale positioning
@@ -165,6 +168,9 @@ public class Main extends Application {
 //                -Tiles.TILE_WIDTH * (map.getPlayer().getCell().getX()),
 //                Tiles.TILE_WIDTH * (map.getHeight() - map.getPlayer().getCell().getY()));
 
+        pickUpBtn = new Button("Pick up item");
+        nextLevelBtn = new Button("Next level");
+
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
         nextLevelBtn.setFocusTraversable(false);
@@ -173,6 +179,7 @@ public class Main extends Application {
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
         nextLevelBtn.setId("next-level-btn");
+
 
         GridPane ui = new GridPane();
 
@@ -325,7 +332,53 @@ public class Main extends Application {
         }
     }
 
+    public void gameOver(Stage primaryStage) throws FileNotFoundException, RuntimeException{
+
+        Button back_to_menu = new Button("Back to Menu");
+        Button exitGameButton = new Button("Exit Game");
+
+        back_to_menu.setId("go");
+        exitGameButton.setId("go");
+
+        back_to_menu.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+            try {
+                map.getPlayer().setHealth(10);
+                mainMenu(primaryStage);
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        });
+        exitGameButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+            System.exit(0);
+        });
+
+        VBox buttons = new VBox(back_to_menu, exitGameButton);
+        buttons.setSpacing(20);
+
+
+        BorderPane menuLayout = new BorderPane();
+        menuLayout.setCenter(buttons);
+        menuLayout.setPrefWidth(1024);
+        menuLayout.setPrefHeight(600);
+
+        Scene scene = new Scene(menuLayout);
+        scene.getStylesheets().add("gameover.css");
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Dungeon Crawl");
+        primaryStage.show();
+
+    }
+
     private void refresh() {
+
+        if(map.getPlayer().getHealth() <=0 ) {
+            try {
+                gameOver(stage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -358,6 +411,7 @@ public class Main extends Application {
                 }
             }
         }
+
         refreshLabel();
     }
 

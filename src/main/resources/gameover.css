@@ -1,0 +1,31 @@
+.root{
+    -fx-background-image: url("bg_game_over.jpg");
+}
+
+#text {
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-fill: white;
+    -fx-display-caret: false;
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+}
+
+#go {
+    -fx-border-color: black;
+    -fx-pref-width: 300px;
+    -fx-alignment: bottom-center;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+    -fx-text-fill: grey;
+}
+
+#name-label {
+    -fx-font-size: 25px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-family: "monospace";
+    -fx-padding: 0 0 20 0;
+}
