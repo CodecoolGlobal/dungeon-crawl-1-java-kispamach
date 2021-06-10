@@ -28,10 +28,6 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
         }
-        // enemy attack
-        if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
-        // player attack
-        if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
 
         //open door
         if (nextCell.getType().equals(CellType.DOOR) && isOpen()) {
@@ -53,9 +49,22 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public void fight(int dx, int dy){
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        // enemy attack
+        if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
+        // player attack
+        if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
+    }
+
+
+
     public boolean moveable(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        return (nextCell.getType().equals(CellType.DOOR) && isOpen())||(cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) || isDeveloper() ;
+        return ((nextCell.getType().equals(CellType.DOOR) && isOpen()) ||
+                (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) ||
+                isDeveloper() )&&
+                !nextCell.isEnemy();
     }
 
     public boolean isDeveloper() {

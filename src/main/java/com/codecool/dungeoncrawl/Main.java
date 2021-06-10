@@ -149,9 +149,9 @@ public class Main extends Application {
     }
 
     public void gameStart(Stage primaryStage) throws Exception{
-        context.scale(3,3);
+        context.scale(2,2);
         //scale positioning
-        context.translate(-267, -214.5);
+        context.translate(-200, -160);
         // positioning the corner tile to the middle
         context.translate(32 * ((double)map.getWidth()/2), -32 * ((double)map.getHeight()/2));
         context.translate(-16, -16);
@@ -240,6 +240,7 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
+                map.getPlayer().fight(0, -1);
                 if (map.getPlayer().moveable(0,-1)) {
                     context.translate(0, 32);
                 }
@@ -256,6 +257,7 @@ public class Main extends Application {
                 break;
             case DOWN:
             case S:
+                map.getPlayer().fight(0, 1);
                 if (map.getPlayer().moveable(0,1)) {
                     context.translate(0, -32);
                 }
@@ -272,6 +274,7 @@ public class Main extends Application {
                 break;
             case LEFT:
             case A:
+                map.getPlayer().fight(-1, 0);
                 if (map.getPlayer().moveable(-1,0)) {
                     context.translate(32, 0);
                 }
@@ -288,6 +291,7 @@ public class Main extends Application {
                 break;
             case RIGHT:
             case D:
+                map.getPlayer().fight(1, 0);
                 if (map.getPlayer().moveable(1,0)) {
                     context.translate(-32, 0);
                 }
