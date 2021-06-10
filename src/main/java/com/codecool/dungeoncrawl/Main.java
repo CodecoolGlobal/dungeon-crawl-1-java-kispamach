@@ -30,8 +30,8 @@ public class Main extends Application {
 
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
-            (25 * Tiles.TILE_WIDTH),
-            (21 * Tiles.TILE_WIDTH));
+            map.getWidth() * Tiles.TILE_WIDTH,
+            map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     Label healthLabel = new Label();
@@ -42,7 +42,6 @@ public class Main extends Application {
     Button nextLevelBtn = new Button("Next level");
 
     Stage stage;
-
 
 
     public static void main(String[] args) {
@@ -57,7 +56,7 @@ public class Main extends Application {
         backButton.setId("allbtn");
 
 
-        HBox buttons = new HBox(startButton,backButton);
+        HBox buttons = new HBox(startButton, backButton);
         Text nameLabel = new Text("Enter Your Name");
         nameLabel.setId("text");
 
@@ -123,7 +122,7 @@ public class Main extends Application {
             System.exit(0);
         });
 
-        VBox buttons = new VBox(startGameButton,loadButton, exitGameButton);
+        VBox buttons = new VBox(startGameButton, loadButton, exitGameButton);
 
         buttons.setAlignment(Pos.CENTER);
         buttons.setSpacing(10);
@@ -149,8 +148,17 @@ public class Main extends Application {
         mainMenu(primaryStage);
     }
 
-    public void gameStart(Stage primaryStage) throws Exception{
-//        context.scale(1.5, 1.5);
+    public void gameStart(Stage primaryStage) throws Exception {
+////        context.scale(2,2);
+////        //scale positioning
+////        context.translate(-200, -160);
+//        // positioning the corner tile to the middle
+//        context.translate(Tiles.TILE_WIDTH * ((double) map.getWidth() / 2), -Tiles.TILE_WIDTH * ((double) map.getHeight() / 2));
+//        context.translate((double) -Tiles.TILE_WIDTH/2, (double)-Tiles.TILE_WIDTH/2);
+//        // positioning the player to the middle
+//        context.translate(
+//                -Tiles.TILE_WIDTH * (map.getPlayer().getCell().getX()),
+//                Tiles.TILE_WIDTH * (map.getHeight() - map.getPlayer().getCell().getY()));
 
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
@@ -175,8 +183,8 @@ public class Main extends Application {
         ui.add(healthLabel, 0, 4);
         ui.add(new Label((map.getPlayer().getName()) + "@Strength:~$ "), 0, 5);
         ui.add(strengthLabel, 0, 6);
-        ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "),0,7);
-        ui.add(inventoryLabel,0,8);
+        ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "), 0, 7);
+        ui.add(inventoryLabel, 0, 8);
         ui.add(pickUpBtn, 0, 20);
         ui.add(nextLevelBtn, 0, 20);
         hidePickUpBtn();
@@ -212,13 +220,17 @@ public class Main extends Application {
         pickUpBtn.setVisible(false);
     }
 
-    private void showPickUpBtn() { pickUpBtn.setVisible(true); }
+    private void showPickUpBtn() {
+        pickUpBtn.setVisible(true);
+    }
 
     private void hideNextLevelBtn() {
         nextLevelBtn.setVisible(false);
     }
 
-    private void showNextLevelBtn() { nextLevelBtn.setVisible(true); }
+    private void showNextLevelBtn() {
+        nextLevelBtn.setVisible(true);
+    }
 
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
@@ -231,54 +243,43 @@ public class Main extends Application {
 
         switch (keyEvent.getCode()) {
             case UP:
-                hidePickUpBtn();
-                hideNextLevelBtn();
-                map.getPlayer().move(0, -1);
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    showPickUpBtn();
-                }
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
-                    showNextLevelBtn();
-                }
+            case W:
+                step(0, -1);
                 refresh();
                 break;
             case DOWN:
-                hidePickUpBtn();
-                hideNextLevelBtn();
-                map.getPlayer().move(0, 1);
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    showPickUpBtn();
-                 }
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
-                    showNextLevelBtn();
-                }
+            case S:
+                step(0, 1);
                 refresh();
                 break;
             case LEFT:
-                hidePickUpBtn();
-                hideNextLevelBtn();
-                map.getPlayer().move(-1, 0);
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    showPickUpBtn();
-                    }
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
-                    showNextLevelBtn();
-                }
+            case A:
+                step(-1, 0);
                 refresh();
                 break;
             case RIGHT:
-                hidePickUpBtn();
-                hideNextLevelBtn();
-                map.getPlayer().move(1,0);
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-                    showPickUpBtn();
-                }
-                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
-                    showNextLevelBtn();
-                }
+            case D:
+                step(1, 0);
                 refresh();
                 break;
         }
+    }
+
+    private void step(int x, int y) {
+        map.getPlayer().fight(x, y);
+        if (map.getPlayer().moveable(x, y)) {
+            context.translate(-Tiles.TILE_WIDTH * x, -Tiles.TILE_WIDTH * y);
+        }
+        hidePickUpBtn();
+        hideNextLevelBtn();
+        map.getPlayer().move(x, y);
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+            showPickUpBtn();
+        }
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+            showNextLevelBtn();
+        }
+        enemyMove();
     }
 
     private void enemyMove(String direction, Cell cell) {
@@ -293,46 +294,9 @@ public class Main extends Application {
                 map.getCell(cell.getX(), cell.getY()).getActor().move(-1, 0);
                 break;
             case "RIGHT":
-                map.getCell(cell.getX(), cell.getY()).getActor().move(1,0);
+                map.getCell(cell.getX(), cell.getY()).getActor().move(1, 0);
                 break;
         }
-    }
-
-    private void refresh() {
-
-//        context.translate(map.getPlayer().getX() - map.getWidth() / 4, map.getPlayer().getY() - map.getHeight() / 4);
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, 25, 21);
-//        context.transform();
-//        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
-
-        enemyMove();
-
-        for (int x = map.getPlayer().getX() - 100; x < map.getPlayer().getX() + 100; x++) {
-            for (int y = map.getPlayer().getY() - 100; y < map.getPlayer().getY() + 100; y++) {
-                Cell cell;
-            try {
-                cell = map.getCell((x + map.getPlayer().getX()) - (12), y + map.getPlayer().getY() - (10));
-            } catch (IndexOutOfBoundsException e) {
-               cell = new Cell(map, 1, 1, CellType.EMPTY);
-            }
-
-                if (cell.getActor() != null) {
-
-                    Tiles.drawTile(context, cell.getActor(), x, y);
-                } else {
-                    Tiles.drawTile(context, cell, x, y);
-                }
-            }
-        }
-        refreshLabel();
-
-    }
-
-    private void refreshLabel() {
-        healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
-        strengthLabel.setText("" + map.getPlayer().getStrength());
-        inventoryLabel.setText("{" + map.getPlayer().itemInInventory() + "}");
     }
 
     private void enemyMove() {
@@ -348,5 +312,46 @@ public class Main extends Application {
                 }
             }
         }
+    }
+
+    private void refresh() {
+
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        context.transform();
+//        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+
+//        for (int x = -30; x < map.getWidth()+100; x++) {
+//            for (int y = -30; y < map.getHeight()+100; y++) {
+////                Cell cell = map.getCell(0,0);
+////                Tiles.drawTile(context, cell, x, y);
+//                Tiles.clearTile(context, x, y);
+//            }
+//        }
+
+
+        for (int x = map.getPlayer().getX() - 100; x < map.getPlayer().getX() + 100; x++) {
+            for (int y = map.getPlayer().getY() - 100; y < map.getPlayer().getY() + 100; y++) {
+                Cell cell;
+            try {
+                cell = map.getCell((x + map.getPlayer().getX()) - (12), y + map.getPlayer().getY() - (10));
+            } catch (IndexOutOfBoundsException e) {
+               cell = new Cell(map, 1, 1, CellType.EMPTY);
+            }
+
+                if (cell.getActor() != null) {
+                    Tiles.drawTile(context, cell.getActor(), x, y);
+                } else {
+                    Tiles.drawTile(context, cell, x, y);
+                }
+            }
+        }
+        refreshLabel();
+    }
+
+    private void refreshLabel() {
+        healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
+        strengthLabel.setText("" + map.getPlayer().getStrength());
+        inventoryLabel.setText("{" + map.getPlayer().itemInInventory() + "}");
     }
 }

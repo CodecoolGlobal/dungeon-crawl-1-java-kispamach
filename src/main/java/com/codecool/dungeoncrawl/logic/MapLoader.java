@@ -29,6 +29,7 @@ public class MapLoader {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
                         case ' ':
+                        case 'ó':
                             cell.setType(CellType.EMPTY);
                             break;
                         case '#':

@@ -32,11 +32,6 @@ public abstract class Actor implements Drawable {
             cell = nextCell;
         }
 
-        // enemy attack
-        if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
-        // player attack
-        if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
-
         //open door
         if (nextCell.getType().equals(CellType.DOOR) && isOpen()) {
             cell.setActor(null);
@@ -55,6 +50,24 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
         }
+    }
+
+    public void fight(int dx, int dy){
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        // enemy attack
+        if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
+        // player attack
+        if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
+    }
+
+
+
+    public boolean moveable(int dx, int dy) {
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        return ((nextCell.getType().equals(CellType.DOOR) && isOpen()) ||
+                (cell.isPlayer() && nextCell.isAvailable() && !nextCell.isEnemy()) ||
+                isDeveloper() )&&
+                !nextCell.isEnemy();
     }
 
     public boolean isDeveloper() {
@@ -142,7 +155,7 @@ public abstract class Actor implements Drawable {
         //TODO key level
         boolean isKey = false;
         for (Item item:inventory) {
-           isKey = item instanceof Key || isDeveloper() ;
+            isKey = item instanceof Key || isDeveloper() ;
         }
         System.out.println(isKey);
         return isKey;
