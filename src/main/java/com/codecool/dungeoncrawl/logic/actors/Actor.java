@@ -11,7 +11,7 @@ public abstract class Actor implements Drawable {
     private String name;
     private Cell cell;
     protected int maxHealth = 10;
-    protected int health = 0;
+    protected int health = 10;
     protected int strength = 6;
     private ArrayList<Item> inventory = new ArrayList<>();
 
