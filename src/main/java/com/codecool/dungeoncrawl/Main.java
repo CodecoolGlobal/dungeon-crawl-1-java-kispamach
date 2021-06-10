@@ -334,13 +334,13 @@ public class Main extends Application {
 
     public void gameOver(Stage primaryStage) throws FileNotFoundException, RuntimeException{
 
-        Button back_to_menu = new Button("Back to Menu");
+        Button backToMenu = new Button("Back to Menu");
         Button exitGameButton = new Button("Exit Game");
 
-        back_to_menu.setId("go");
-        exitGameButton.setId("go");
+        backToMenu.setId("go");
+        exitGameButton.setId("go-exit");
 
-        back_to_menu.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+        backToMenu.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
                 map.getPlayer().setHealth(10);
                 mainMenu(primaryStage);
@@ -352,12 +352,14 @@ public class Main extends Application {
             System.exit(0);
         });
 
-        VBox buttons = new VBox(back_to_menu, exitGameButton);
+        VBox buttons = new VBox(backToMenu, exitGameButton);
         buttons.setSpacing(20);
-
+        buttons.setId("game-over-buttons");
 
         BorderPane menuLayout = new BorderPane();
-        menuLayout.setCenter(buttons);
+        menuLayout.setCenter(backToMenu);
+        menuLayout.setCenter(exitGameButton);
+
         menuLayout.setPrefWidth(1024);
         menuLayout.setPrefHeight(600);
 
