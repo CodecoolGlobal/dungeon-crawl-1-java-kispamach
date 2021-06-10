@@ -10,6 +10,7 @@ public enum CellType {
     POTION("potion"),
     CELL("cell"),
     OPENCELL("opencell"),
+    UFO("ufo"),
     WALL("wall");
 
     private final String tileName;

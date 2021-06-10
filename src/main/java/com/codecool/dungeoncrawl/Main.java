@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Alien;
 import com.codecool.dungeoncrawl.logic.actors.Guard;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -27,11 +29,12 @@ import java.util.Random;
 import java.io.FileNotFoundException;
 
 public class Main extends Application {
-
-    GameMap map = MapLoader.loadMap();
+    GameMap mapLevel1;
+    GameMap mapLevel2;
+    GameMap map;
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            25 * Tiles.TILE_WIDTH,
+            21 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     Label healthLabel = new Label();
@@ -69,6 +72,8 @@ public class Main extends Application {
 
         startButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
+                mapLevel1 = MapLoader.loadMap(1);
+                map = mapLevel1;
                 map.getPlayer().setName(textField.getText());
                 gameStart(primaryStage);
             } catch (Exception exception) {
@@ -209,6 +214,12 @@ public class Main extends Application {
 
         nextLevelBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             //TODO next level;
+            mapLevel2 = MapLoader.loadMap(2);
+            Cell playerCell = mapLevel2.getPlayer().getCell();
+            mapLevel1.getPlayer().setCell(playerCell);
+            mapLevel2.setPlayer(mapLevel1.getPlayer());
+            map = mapLevel2;
+
             hideNextLevelBtn();
         });
 
@@ -267,9 +278,9 @@ public class Main extends Application {
 
     private void step(int x, int y) {
         map.getPlayer().fight(x, y);
-        if (map.getPlayer().moveable(x, y)) {
-            context.translate(-Tiles.TILE_WIDTH * x, -Tiles.TILE_WIDTH * y);
-        }
+//        if (map.getPlayer().moveable(x, y)) {
+//            context.translate(-Tiles.TILE_WIDTH * x, -Tiles.TILE_WIDTH * y);
+//        }
         hidePickUpBtn();
         hideNextLevelBtn();
         map.getPlayer().move(x, y);
@@ -318,8 +329,6 @@ public class Main extends Application {
 
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-//        context.transform();
-//        context.moveTo(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
 
 //        for (int x = -30; x < map.getWidth()+100; x++) {
 //            for (int y = -30; y < map.getHeight()+100; y++) {
@@ -328,20 +337,23 @@ public class Main extends Application {
 //                Tiles.clearTile(context, x, y);
 //            }
 //        }
-
+        ColorAdjust mediumTile = new ColorAdjust();
+        mediumTile.setBrightness(0.5);
 
         for (int x = map.getPlayer().getX() - 100; x < map.getPlayer().getX() + 100; x++) {
             for (int y = map.getPlayer().getY() - 100; y < map.getPlayer().getY() + 100; y++) {
                 Cell cell;
-            try {
-                cell = map.getCell((x + map.getPlayer().getX()) - (12), y + map.getPlayer().getY() - (10));
-            } catch (IndexOutOfBoundsException e) {
-               cell = new Cell(map, 1, 1, CellType.EMPTY);
-            }
-
+                try {
+                    cell = map.getCell((x + map.getPlayer().getX()) - 12, y + map.getPlayer().getY() - 10);
+                } catch (IndexOutOfBoundsException e) {
+                   cell = new Cell(map, 1, 1, CellType.EMPTY);
+                }
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
+
                 } else {
+//                    if (cell.getX() == map.getPlayer().getX() - 1 && cell.getY() == map.getPlayer().getY()) Tiles.drawTileMedium(context, cell, x, y);
+
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
