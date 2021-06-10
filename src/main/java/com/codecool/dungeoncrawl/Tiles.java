@@ -9,15 +9,16 @@ import java.util.Map;
 import java.util.Random;
 
 public class Tiles {
-    public static int TILE_WIDTH = 32;
+    private static final int ratio = 2;
+    public static int TILE_WIDTH =ratio * 16;
 
     private static Image tileset = new Image("/tiles2.png", 543 * 2, 543 * 2, true, false);
     private static Map<String, Tile> tileMap = new HashMap<>();
     public static class Tile {
         public final int x, y, w, h;
         Tile(int i, int j) {
-            x = i * (TILE_WIDTH + 2);
-            y = j * (TILE_WIDTH + 2);
+            x = i * (TILE_WIDTH + ratio);
+            y = j * (TILE_WIDTH + ratio);
             w = TILE_WIDTH;
             h = TILE_WIDTH;
         }
@@ -42,6 +43,12 @@ public class Tiles {
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
         Tile tile = tileMap.get(d.getTileName());
+        context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
+                x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+    }
+
+    public static void clearTile(GraphicsContext context, int x, int y) {
+        Tile tile = tileMap.get("empty");
         context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
                 x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
     }

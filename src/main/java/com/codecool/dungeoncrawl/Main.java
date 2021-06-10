@@ -152,12 +152,12 @@ public class Main extends Application {
 //        //scale positioning
 //        context.translate(-200, -160);
         // positioning the corner tile to the middle
-        context.translate(32 * ((double) map.getWidth() / 2), -32 * ((double) map.getHeight() / 2));
-        context.translate(-16, -16);
+        context.translate(Tiles.TILE_WIDTH * ((double) map.getWidth() / 2), -Tiles.TILE_WIDTH * ((double) map.getHeight() / 2));
+        context.translate((double) -Tiles.TILE_WIDTH/2, (double)-Tiles.TILE_WIDTH/2);
         // positioning the player to the middle
         context.translate(
-                -32 * (map.getPlayer().getCell().getX()),
-                32 * (map.getHeight() - map.getPlayer().getCell().getY()));
+                -Tiles.TILE_WIDTH * (map.getPlayer().getCell().getX()),
+                Tiles.TILE_WIDTH * (map.getHeight() - map.getPlayer().getCell().getY()));
 
         canvas.setFocusTraversable(false);
         pickUpBtn.setFocusTraversable(false);
@@ -267,7 +267,7 @@ public class Main extends Application {
     private void step(int x, int y) {
         map.getPlayer().fight(x, y);
         if (map.getPlayer().moveable(x, y)) {
-            context.translate(-32 * x, -32 * y);
+            context.translate(-Tiles.TILE_WIDTH * x, -Tiles.TILE_WIDTH * y);
         }
         hidePickUpBtn();
         hideNextLevelBtn();
@@ -317,7 +317,16 @@ public class Main extends Application {
 
 //        background visibility
 //        context.setFill(Color.BLACK);  // background color
-//        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());  // background position
+//        context.fillRect(0, 0, canvas.getWidth()+5, canvas.getHeight()+5);  // background position
+
+        for (int x = -30; x < map.getWidth()+100; x++) {
+            for (int y = -30; y < map.getHeight()+100; y++) {
+//                Cell cell = map.getCell(0,0);
+//                Tiles.drawTile(context, cell, x, y);
+                Tiles.clearTile(context, x, y);
+            }
+        }
+
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
