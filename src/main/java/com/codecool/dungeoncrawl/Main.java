@@ -61,6 +61,7 @@ public class Main extends Application {
 
 
         HBox buttons = new HBox(startButton, backButton);
+        buttons.setSpacing(25);
         Text nameLabel = new Text("Enter Your Name");
         nameLabel.setId("text");
 
@@ -260,6 +261,8 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
 
         switch (keyEvent.getCode()) {
+            case ESCAPE:
+                System.exit(0);
             case UP:
             case W:
                 step(0, -1);
