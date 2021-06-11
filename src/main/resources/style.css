@@ -56,11 +56,11 @@
 
 #allbtn:hover{
     -fx-background-image: url("neon-button-push.png") ;
-    -fx-background-size: 300px 40px;
+    -fx-background-size: 300px 35px;
     -fx-background-color: transparent;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
     -fx-pref-width: 300px;
-    -fx-pref-height: 40px;
+
     -fx-padding: 5 10 5 10;
     -fx-font-family: "Monospaced";
     -fx-font-weight: bold;
