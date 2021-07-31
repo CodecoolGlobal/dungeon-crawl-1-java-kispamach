@@ -11,8 +11,8 @@ public class MapLoader {
 
     public static GameMap loadMap(int level) {
         InputStream is;
-        if (level == 2) {
-            is = MapLoader.class.getResourceAsStream("/map2.txt");
+        if (level > 1) {
+            is = MapLoader.class.getResourceAsStream("/map"+ level +".txt");
         } else {
             is = MapLoader.class.getResourceAsStream("/map.txt");
         }
@@ -20,7 +20,6 @@ public class MapLoader {
         System.out.println(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
-
 
         scanner.nextLine(); // empty line
 

@@ -29,12 +29,12 @@ import java.util.Random;
 import java.io.FileNotFoundException;
 
 public class Main extends Application {
-    GameMap mapLevel1;
-    GameMap mapLevel2;
-    GameMap map;
+    GameMap mapLevel1 = MapLoader.loadMap(1);
+    GameMap mapLevel2 = MapLoader.loadMap(2);
+    GameMap map = MapLoader.loadMap(0);
     Canvas canvas = new Canvas(
-            25 * Tiles.TILE_WIDTH,
-            21 * Tiles.TILE_WIDTH);
+            map.getWidth() * Tiles.TILE_WIDTH,
+            map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     Label healthLabel = new Label();
@@ -74,7 +74,6 @@ public class Main extends Application {
 
         startButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
-                mapLevel1 = MapLoader.loadMap(1);
                 map = mapLevel1;
                 map.getPlayer().setName(textField.getText());
                 gameStart(primaryStage);
@@ -222,7 +221,6 @@ public class Main extends Application {
 
         nextLevelBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             //TODO next level;
-            mapLevel2 = MapLoader.loadMap(2);
             Cell playerCell = mapLevel2.getPlayer().getCell();
             mapLevel1.getPlayer().setCell(playerCell);
             mapLevel2.setPlayer(mapLevel1.getPlayer());
@@ -403,14 +401,16 @@ public class Main extends Application {
 //        }
         ColorAdjust mediumTile = new ColorAdjust();
         mediumTile.setBrightness(0.5);
+        System.out.println((double)map.getWidth()/2);
+        System.out.println((double)map.getHeight()/2);
 
         for (int x = map.getPlayer().getX() - 100; x < map.getPlayer().getX() + 100; x++) {
             for (int y = map.getPlayer().getY() - 100; y < map.getPlayer().getY() + 100; y++) {
                 Cell cell;
                 try {
-                    cell = map.getCell((x + map.getPlayer().getX()) - 12, y + map.getPlayer().getY() - 10);
+                    cell = map.getCell((x + map.getPlayer().getX()) - map.getWidth()/2, y + map.getPlayer().getY() - map.getHeight()/2);
                 } catch (IndexOutOfBoundsException e) {
-                   cell = new Cell(map, 1, 1, CellType.EMPTY);
+                    cell = new Cell(map, 1, 1, CellType.EMPTY);
                 }
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
